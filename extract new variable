@@ -1,0 +1,113 @@
+# Extracting variables from first colomn 'SampleID'
+# This variable 'SampleID' holds information on new variabels: 'VolunteerID', 'SampleTime', 'ProtocolID'
+# Via the script below we will extract the new variables from the 'SampleID' and convert the factor variables 
+# 'VolunteerID' and 'ProtocolID' into factorVariables.  
+
+# NOTE - Using the grep function here, but could have used the str_detect function as well.
+
+
+
+#Change variable type of SampleID to character to extract information
+
+AA_analysis.report_CSV$SampleID <- as.character(AA_analysis.report_CSV$SampleID)
+
+#Check change
+str(AA_analysis.report_CSV)
+  
+#Check the type of the other variables, change if neccessary
+#Changing $asp to numerical (was factor)
+
+AA_analysis.report_CSV$asp <- as.numeric(AA_analysis.report_CSV$asp)
+
+#Check change
+str(AA_analysis.report_CSV)
+
+#Extracting the 'VolunteerID' from the SampleID and changing the VolunteerID to factor variable
+
+
+  extractVolunteerID <- function(SampleID) {
+    
+    
+    if (length(grep("01", SampleID)) > 0) {
+      return ("Volunteer 1")
+      
+    } else if (length(grep("02", SampleID)) > 0) {
+      return ("Volunteer 2")
+      
+    } else if (length(grep("03", SampleID)) > 0) {
+      return ("Volunteer 3")
+      
+    } else if (length(grep("04", SampleID)) > 0) {
+      return ("Volunteer 4")
+      
+    } else if (length(grep("05", SampleID)) > 0) {
+      return ("Volunteer 5")
+      
+    } else if (length(grep("06", SampleID)) > 0) {
+      return ("Volunteer 6")
+      
+    } else if (length(grep("07", SampleID)) > 0) {
+      return ("Volunteer 7")
+      
+    } else if (length(grep("08", SampleID)) > 0) {
+      return ("Volunteer 8")
+      
+    } else if (length(grep("09", SampleID)) > 0) {
+      return ("Volunteer 09")
+      
+    } else if (length(grep("10", SampleID)) > 0) {
+      return ("Volunteer 10")
+      
+    } else if (length(grep("11", SampleID)) > 0) {
+      return ("Volunteer 11")
+      
+    } else if (length(grep("12", SampleID)) > 0) {
+      return ("Volunteer 12")
+      
+    } else if (length(grep("13", SampleID)) > 0) {
+      return ("Volunteer 13")
+      
+    } else if (length(grep("14", SampleID)) > 0) {
+        return ("Volunteer 14")
+        
+    }  else if (length(grep("15", SampleID)) > 0) {
+          return ("Volunteer 15")
+          
+    }   else if (length(grep("16", SampleID)) > 0) {
+            return ("Volunteer 16")
+            
+    }    else if (length(grep("17", SampleID)) > 0) {
+              return ("Volunteer 17")
+      
+    }    else if (length(grep("18", SampleID)) > 0) {
+      return ("Volunteer 18")
+      
+      
+      
+    } else {
+      return ("Other")
+    }
+  }
+  
+  
+  
+  
+  
+
+
+VolunteerID <- NULL
+  for (i in 1:nrow(AA_analysis.report_CSV)) {
+    VolunteerID <- c(VolunteerID, extractVolunteerID(AA_analysis.report_CSV[i,"SampleID"]))
+  }
+  
+  
+
+AA_analysis.report_CSV$VolunteerID <- as.factor(VolunteerID)
+
+
+new_AA_report <- "AA_analysis.report_CSV"
+
+
+
+
+
