@@ -102,7 +102,7 @@ VolunteerID <- NULL
   
   
 
-AA_analysis.report_CSV$VolunteerID <- as.factor(VolunteerID)
+AA_analysis.report_CSV$VolunteerID <- as.factor(AA_analysis.report_CSV$VolunteerID)
 
 
 new_AA_report <- "AA_analysis.report_CSV"
