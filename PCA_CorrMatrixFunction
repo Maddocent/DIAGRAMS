@@ -1,0 +1,51 @@
+#this function creates four images of a matrix: two correlation matrices a cree plot and and a loadings plot.
+It takes the dataframe as an argument and also the title of the file that must be created
+DF has to be class "data frame" file name has to be "character". 
+
+
+CorrelationMatrix <- function(DF, filename)
+{
+cm <- abs(cor(DF))
+colors <- dmat.color(cm)
+ordered <- order.single(cor(DF))
+png(filename = paste(filename,"png", sep = "."),
+    width = 100, height = 100, units = "cm", pointsize = 10,
+    bg = "white", res = 300)
+cpairs(DF, ordered, panel.colors = colors, gap=0.5)
+title(main = filename)
+dev.off()
+
+png(filename = paste(filename,"colors.png", sep = "."),
+    width = 20, height = 20, units = "cm", pointsize = 5,
+    bg = "white", res = 300)
+library(corrplot)
+corrplot(cm, type="upper", 
+         order="hclust", tl.col="black", tl.srt=45)
+title(main = paste(filename, "_colors"), outer = FALSE)
+margin(30,30,30,30, unit = "pt")
+dev.off()
+
+#the PCA analysis: Screeplots
+#convert DF to matix
+
+DF <- as.matrix(DF)
+
+prc <- prcomp(DF, center=TRUE, scale=TRUE)
+  
+png(filename = paste(filename, "_Screeplot.png", sep = ""),
+      width = 10, height = 10, units = "cm", pointsize = 12,
+      bg = "white", res = 300)
+screeplot(prc, main = paste(filename, "ScreePlot", sep = ""), 
+          type= "lines", npcs = 10)
+dev.off()
+
+load <- prc$rotation
+sorted.loadings <- load[order(load[, 1]), 1]
+
+LoadingsPlot <- dotplot(sorted.loadings)
+trellis.device(device="png", filename= paste(filename, "LoadingsPC1.png", sep = ""),
+               width = 20, height = 20, units = "cm", pointsize = 8, res = 300)
+print(LoadingsPlot)
+dev.off()
+
+}  
